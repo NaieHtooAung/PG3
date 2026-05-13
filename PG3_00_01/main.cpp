@@ -1,25 +1,29 @@
 #include <stdio.h>
 #include <Windows.h>
 
-// n時間目の時給
+// n時間目の時給を求める再帰関数
 int hourlyWage(int t)
 {
-    if (t == 1)
+    // 1時間目
+    if (t <= 1)
     {
         return 100;
     }
 
+    // 前回時給 × 2 - 50
     return hourlyWage(t - 1) * 2 - 50;
 }
 
-// 合計賃金
+// 合計賃金を求める再帰関数
 int totalSalary(int t)
 {
-    if (t == 1)
+    // 1時間目
+    if (t <= 1)
     {
-        return hourlyWage(1);
+        return 100;
     }
 
+    // 前回までの合計 + 今回の時給
     return totalSalary(t - 1) + hourlyWage(t);
 }
 
@@ -38,11 +42,11 @@ int main()
     // 再帰的な賃金体系
     int recursiveSalary = totalSalary(time);
 
-    printf("\n--- 計算結果 ---\n");
+    printf("\n===== 計算結果 =====\n");
 
-    printf("一般的な賃金体系: %d 円\n", normalSalary);
+    printf("一般的な賃金体系 : %d 円\n", normalSalary);
 
-    printf("再帰的な賃金体系: %d 円\n", recursiveSalary);
+    printf("再帰的な賃金体系 : %d 円\n", recursiveSalary);
 
     // 比較
     if (normalSalary > recursiveSalary)
@@ -55,7 +59,7 @@ int main()
     }
     else
     {
-        printf("同じ金額です\n");
+        printf("どちらも同じ金額です\n");
     }
 
     return 0;
