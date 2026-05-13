@@ -7,11 +7,12 @@ Type Min(Type a, Type b)
     return (a > b) ? b : a;
 }
 
+// char型の特殊化
 template <>
-char Min<char>(char a, char b)
+char Min(char a, char b)
 {
     printf("数字以外は代入できません\n");
-    return 0; // 値は使わないのでダミー
+    return 0;
 }
 
 int main()
@@ -30,9 +31,9 @@ int main()
     double d1 = 6.5, d2 = 4.5;
     printf("double: %.2lf\n", Min(d1, d2));
 
-    // ⭐ char
+    // char
     char c1 = 'A', c2 = 'B';
-    Min(c1, c2); 
+    Min(c1, c2);
 
     return 0;
 }
