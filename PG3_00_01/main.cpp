@@ -4,7 +4,8 @@
 // n時間目の時給
 int hourlyWage(int t)
 {
-    if (t == 1) {
+    if (t == 1)
+    {
         return 100;
     }
 
@@ -14,7 +15,8 @@ int hourlyWage(int t)
 // 合計賃金
 int totalSalary(int t)
 {
-    if (t == 1) {
+    if (t == 1)
+    {
         return hourlyWage(1);
     }
 
@@ -26,31 +28,35 @@ int main()
     system("chcp 65001 > nul");
 
     int time;
-    int choice;
 
     printf("働く時間を入力してください: ");
     scanf_s("%d", &time);
 
-    printf("一般的な賃金体系は1番 / 再帰的な賃金は2番 を選んでください: ");
-    scanf_s("%d", &choice);
+    // 一般的な賃金体系
+    int normalSalary = time * 1072;
 
-    int result = 0;
+    // 再帰的な賃金体系
+    int recursiveSalary = totalSalary(time);
 
-    if (choice == 1)
+    printf("\n--- 計算結果 ---\n");
+
+    printf("一般的な賃金体系: %d 円\n", normalSalary);
+
+    printf("再帰的な賃金体系: %d 円\n", recursiveSalary);
+
+    // 比較
+    if (normalSalary > recursiveSalary)
     {
-        result = time * 1072;
+        printf("一般的な賃金体系の方が高いです\n");
     }
-    else if (choice == 2)
+    else if (normalSalary < recursiveSalary)
     {
-        result = totalSalary(time);
+        printf("再帰的な賃金体系の方が高いです\n");
     }
     else
     {
-        printf("無効な入力です\n");
-        return 0;
+        printf("同じ金額です\n");
     }
-
-    printf("あなたの賃金は %d 円です\n", result);
 
     return 0;
 }
