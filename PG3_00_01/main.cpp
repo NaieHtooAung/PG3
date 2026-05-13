@@ -3,16 +3,14 @@
 #include <Windows.h>
 #include <time.h>
 
-// コールバック関数用の関数ポインタ
+// 関数ポインタ型
 typedef void(*Callback)(int, int);
 
-// 判定用コールバック関数
+// コールバック関数
 void showResult(int dice, int guess)
 {
     printf("Dice : %d\n", dice);
 
-    // 0 = Even
-    // 1 = Odd
     int result = dice % 2;
 
     if (result == 0)
@@ -34,7 +32,7 @@ void showResult(int dice, int guess)
     }
 }
 
-// サイコロを振る関数
+// サイコロ関数
 void rollDice(Callback callback, int guess)
 {
     int dice = rand() % 6 + 1;
@@ -49,7 +47,7 @@ void rollDice(Callback callback, int guess)
 
     printf("\n");
 
-    // コールバック関数を呼び出す
+    // コールバック実行
     callback(dice, guess);
 }
 
@@ -57,23 +55,23 @@ int main()
 {
     system("chcp 65001 > nul");
 
-    // 乱数初期化は1回だけ
     srand((unsigned int)time(NULL));
 
     int guess;
     int again = 1;
 
+    // 関数ポインタ変数
+    Callback cb = showResult;
+
     while (again == 1)
     {
         printf("========== Dice Game ==========\n");
-        printf("Guess Even or Odd\n");
         printf("0 = Even\n");
         printf("1 = Odd\n");
 
-        // 正しい入力が来るまで繰り返す
         while (1)
         {
-            printf("Your guess: ");
+            printf("Your guess : ");
             scanf_s("%d", &guess);
 
             if (guess == 0 || guess == 1)
@@ -84,12 +82,12 @@ int main()
             printf("無効な入力です!\n");
         }
 
-        // 関数ポインタ経由でコールバック実行
-        rollDice(showResult, guess);
+        // 関数ポインタ経由
+        rollDice(cb, guess);
 
-        printf("\nもう一度試しますか？\n");
-        printf("1 = はい\n");
-        printf("2 = いいえ\n");
+        printf("\nもう一度遊びますか？\n");
+        printf("1 = Yes\n");
+        printf("2 = No\n");
         scanf_s("%d", &again);
 
         printf("\n");
