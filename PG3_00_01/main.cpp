@@ -31,7 +31,7 @@ void showResult(int dice, int guess)
 void rollDice(Callback callback, int guess)
 {
 	int dice = rand() % 6 + 1;
-	printf("サイコロを振ります...\n");
+	printf("サイコロを振ります");
 
 	for (int i = 0; i < 3; i++)
 	{
