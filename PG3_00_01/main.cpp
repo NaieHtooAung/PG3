@@ -23,7 +23,7 @@ int totalSalary(int t)
 
 int main()
 {
-    SetConsoleOutputCP(65001);
+    system("chcp 65001 > nul");
 
     int time;
     int choice;
