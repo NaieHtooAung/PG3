@@ -3,7 +3,7 @@
 #include <Windows.h>
 int main()
 {
-	SetConsoleOutputCP(65001);
+	system("chcp 65001 > nul");
 	char str[] = "こんにちは";
 		printf("%s", str);
 
