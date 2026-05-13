@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <Windows.h>
 
-template <typename Type>
-Type Min(Type a, Type b)
+// 関数テンプレート
+template <typename T>
+T Min(T a, T b)
 {
-    return (a > b) ? b : a;
+    return (a < b) ? a : b;
 }
 
 // char型の特殊化
@@ -19,21 +20,25 @@ int main()
 {
     system("chcp 65001 > nul");
 
-    // int
-    int a = 5, b = 3;
-    printf("int: %d\n", Min(a, b));
+    // int型
+    int i1 = 5;
+    int i2 = 3;
+    printf("int : %d\n", Min(i1, i2));
 
-    // float
-    float x = 2.5f, y = 1.2f;
-    printf("float: %.2f\n", Min(x, y));
+    // float型
+    float f1 = 2.5f;
+    float f2 = 1.2f;
+    printf("float : %.2f\n", Min(f1, f2));
 
-    // double
-    double d1 = 6.5, d2 = 4.5;
-    printf("double: %.2lf\n", Min(d1, d2));
+    // double型
+    double d1 = 6.5;
+    double d2 = 4.5;
+    printf("double : %.2lf\n", Min(d1, d2));
 
-    // char
-    char c1 = 'A', c2 = 'B';
-    Min(c1, c2);
+    // char型
+    char c1 = 'A';
+    char c2 = 'B';
+    printf("char : %c\n", Min(c1, c2));
 
     return 0;
 }
