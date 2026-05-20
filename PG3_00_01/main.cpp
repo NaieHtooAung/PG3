@@ -4,26 +4,22 @@
 // n時間目の時給を求める再帰関数
 int hourlyWage(int t)
 {
-    // 1時間目
     if (t <= 1)
     {
         return 100;
     }
 
-    // 前回時給 × 2 - 50
     return hourlyWage(t - 1) * 2 - 50;
 }
 
 // 合計賃金を求める再帰関数
 int totalSalary(int t)
 {
-    // 1時間目
     if (t <= 1)
     {
         return 100;
     }
 
-    // 前回までの合計 + 今回の時給
     return totalSalary(t - 1) + hourlyWage(t);
 }
 
@@ -36,6 +32,13 @@ int main()
     printf("働く時間を入力してください: ");
     scanf_s("%d", &time);
 
+    // 🔽 追加：一覧表示
+    printf("\n===== 時給一覧 =====\n");
+    for (int i = 1; i <= time; i++)
+    {
+        printf("%d時間目 : %d円\n", i, hourlyWage(i));
+    }
+
     // 一般的な賃金体系
     int normalSalary = time * 1072;
 
@@ -45,7 +48,6 @@ int main()
     printf("\n===== 計算結果 =====\n");
 
     printf("一般的な賃金体系 : %d 円\n", normalSalary);
-
     printf("再帰的な賃金体系 : %d 円\n", recursiveSalary);
 
     // 比較
