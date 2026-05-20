@@ -23,7 +23,7 @@ int main() {
     printf("奇数(1) か 偶数(2) を入力してください: ");
 
     int input;
-    scanf("%d", &input);
+    scanf_s("%d", &input);
 
     // [条件4] ラムダ式でdiceとinputをキャプチャーして判定関数を作成
     auto judge = [dice, input]() {
