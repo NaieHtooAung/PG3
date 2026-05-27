@@ -1,27 +1,32 @@
-#include <iostream>
-#include <string>
+#include <stdio.h>
 
-template<typename T>
-const T& Min(const T& x, const T& y) {
-	return x < y ? x : y;
+int min_int(int x, int y) {
+    return x < y ? x : y;
 }
 
-template<>
-const char& Min<char>(const char& x, const char& y) {
-	static std::string str = "数字以外は代入できません";
-	return str.at(0);
+float min_float(float x, float y) {
+    return x < y ? x : y;
 }
 
-int main() {
-	int32_t x_int = 114, y_int = 514;
-	float x_float = 514.0f, y_float = 1140.0f;
-	double x_double = 810.0, y_double = 1919.0;
-	char x_char = 'a', y_char = 'i';
+double min_double(double x, double y) {
+    return x < y ? x : y;
+}
 
-	std::cout << Min(x_int, y_int) << std::endl;
-	std::cout << Min(x_float, y_float) << std::endl;
-	std::cout << Min(x_double, y_double) << std::endl;
-	std::wcout << &(Min(x_char, y_char)) << std::endl;
+char min_char(char x, char y) {
+    printf("数字以外は代入できません\n");
+    return x < y ? x : y;
+}
 
-	return 0;
+int main(void) {
+    int    x_int = 114, y_int = 514;
+    float  x_float = 514.0f, y_float = 1140.0f;
+    double x_double = 810.0, y_double = 1919.0;
+    char   x_char = 'a', y_char = 'i';
+
+    printf("%d\n", min_int(x_int, y_int));
+    printf("%f\n", min_float(x_float, y_float));
+    printf("%lf\n", min_double(x_double, y_double));
+    printf("%c\n", min_char(x_char, y_char));
+
+    return 0;
 }
