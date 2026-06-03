@@ -1,57 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <Windows.h>
 
-/* int同士の比較 */
-int Min_int_int(int a, int b) {
-    return (a < b) ? a : b;
-}
-
-/* float同士の比較 */
-float Min_float_float(float a, float b) {
-    return (a < b) ? a : b;
-}
-
-/* double同士の比較 */
-double Min_double_double(double a, double b) {
-    return (a < b) ? a : b;
-}
-
-/* int と float の比較 */
-double Min_int_float(int a, float b) {
-    return (a < b) ? (double)a : (double)b;
-}
-
-/* int と double の比較 */
-double Min_int_double(int a, double b) {
-    return (a < b) ? (double)a : b;
-}
-
-/* float と double の比較 */
-double Min_float_double(float a, double b) {
-    return (a < b) ? (double)a : b;
-}
+/* クラステンプレートの定義 */
+template <typename T1, typename T2>
+class Min {
+public:
+    double calc(T1 a, T2 b) {
+        return (a < b) ? (double)a : (double)b;
+    }
+};
 
 int main() {
     system("chcp 65001 > nul");
 
     /* ① int, int */
-    printf("[int,    int]    Min(3, 5)       = %d\n", Min_int_int(3, 5));
+    Min<int, int> m1;
+    printf("[int,    int]    Min(3, 5)       = %.0f\n", m1.calc(3, 5));
 
     /* ② float, float */
-    printf("[float,  float]  Min(1.5, 2.5)   = %.1f\n", Min_float_float(1.5f, 2.5f));
+    Min<float, float> m2;
+    printf("[float,  float]  Min(1.5, 2.5)   = %.1f\n", m2.calc(1.5f, 2.5f));
 
     /* ③ double, double */
-    printf("[double, double] Min(4.2, 3.8)   = %.1f\n", Min_double_double(4.2, 3.8));
+    Min<double, double> m3;
+    printf("[double, double] Min(4.2, 3.8)   = %.1f\n", m3.calc(4.2, 3.8));
 
     /* ④ int, float */
-    printf("[int,    float]  Min(2, 1.5)     = %.1f\n", Min_int_float(2, 1.5f));
+    Min<int, float> m4;
+    printf("[int,    float]  Min(2, 1.5)     = %.1f\n", m4.calc(2, 1.5f));
 
     /* ⑤ int, double */
-    printf("[int,    double] Min(4, 3.9)     = %.1f\n", Min_int_double(4, 3.9));
+    Min<int, double> m5;
+    printf("[int,    double] Min(4, 3.9)     = %.1f\n", m5.calc(4, 3.9));
 
     /* ⑥ float, double */
-    printf("[float,  double] Min(2.5, 2.4)   = %.1f\n", Min_float_double(2.5f, 2.4));
+    Min<float, double> m6;
+    printf("[float,  double] Min(2.5, 2.4)   = %.1f\n", m6.calc(2.5f, 2.4));
 
     return 0;
 }
