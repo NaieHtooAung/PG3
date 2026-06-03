@@ -1,33 +1,30 @@
 #include <stdio.h>
-#include <iostream>
+#include <windows.h>
 
-int min_int(int x, int y) {
-    return x < y ? x : y;
+template<typename T>
+T Min(T a, T b) {
+    if (a < b) {
+        return a;
+    }
+    else {
+        return b;  // a >= b の場合は b を返す
+    }
 }
 
-float min_float(float x, float y) {
-    return x < y ? x : y;
-}
-
-double min_double(double x, double y) {
-    return x < y ? x : y;
-}
-
-void min_char(char x, char y) {                          // ← void に変更
-    std::cout << "数字以外は代入できません" << std::endl; // ← cout で出力
+template<> char Min<char>(char a, char b) {
+    printf("数字以外は代入出来ません");
+    return 0;
 }
 
 int main(void) {
-    system("chcp 65001 > nul");
-    int    x_int = 114, y_int = 514;
-    float  x_float = 514.0f, y_float = 1140.0f;
-    double x_double = 810.0, y_double = 1919.0;
-    char   x_char = 'a', y_char = 'i';
+    SetConsoleOutputCP(65001);
+    char chr1 = 'a';
+    char chr2 = 'b';
 
-    printf("%d\n", min_int(x_int, y_int));
-    printf("%f\n", min_float(x_float, y_float));
-    printf("%lf\n", min_double(x_double, y_double));
-    min_char(x_char, y_char);                            // ← 戻り値を受け取らない
+    printf("%d\n", Min<int>(200, 500));
+    printf("%f\n", Min<float>(1.0f, 3.0f));
+    printf("%f\n", Min<double>(100.333, 80.333));
+    Min<char>(chr1, chr2);
 
     return 0;
 }
