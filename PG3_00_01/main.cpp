@@ -186,59 +186,95 @@ public:
     int getEnemyCount() { return enemyCount; }
 };
 
-// ===== Main =====
 int main() {
     system("chcp 65001 > nul");
 
-    // プレイヤー生成
     Player* player = new Player(10, 3, 5.0f);
+    int totalStages = 3;
 
-    // ステージ1生成
-    Stage* stage = new Stage(1);
+    for (int stageNum = 1; stageNum <= totalStages; stageNum++) {
 
-    // 敵を追加
-    stage->addEnemy(new StraightEnemy(5, 1, 90.0f));
-    stage->addEnemy(new ChaseEnemy(8, 2, player));
-    stage->addEnemy(new ZigzagEnemy(6, 1, 2.5f));
+        // ライフが0以下ならゲームオーバー
+        if (player->getLife() <= 0) break;
 
-    // ゲーム開始
-    stage->start();
-    stage->spawnEnemy();
+        Stage* stage = new Stage(stageNum);
 
-    printf("\n--- 戦闘開始 ---\n");
+        // ステージごとに敵の強さを変える
+        if (stageNum == 1) {
+            stage->addEnemy(new StraightEnemy(5, 1, 90.0f));
+            stage->addEnemy(new ChaseEnemy(8, 2, player));
+        }
+        else if (stageNum == 2) {
+            stage->addEnemy(new StraightEnemy(10, 2, 90.0f));
+            stage->addEnemy(new ChaseEnemy(12, 3, player));
+            stage->addEnemy(new ZigzagEnemy(8, 2, 3.0f));
+        }
+        else if (stageNum == 3) {
+            stage->addEnemy(new StraightEnemy(15, 3, 90.0f));
+            stage->addEnemy(new ChaseEnemy(18, 4, player));
+            stage->addEnemy(new ZigzagEnemy(12, 3, 4.0f));
+        }
 
-    // プレイヤーが弾を発射
-    Bullet* bullet = player->shoot();
-    bullet->move();
+        stage->start();
+        stage->spawnEnemy();
 
-    // 敵を攻撃
-    Enemy** enemies = stage->getEnemies();
-    for (int i = 0; i < stage->getEnemyCount(); i++) {
-        bullet->hitCheck();
-        enemies[i]->takeDamage(player->getAttackPower());
+        printf("\n--- 戦闘開始 ---\n");
+
+        // 各敵と戦闘
+        Enemy** enemies = stage->getEnemies();
+        for (int i = 0; i < stage->getEnemyCount(); i++) {
+
+            // ライフが0以下ならゲームオーバー
+            if (player->getLife() <= 0) break;
+
+            printf("\n-- 敵 %d と戦闘中 --\n", i + 1);
+
+            // 敵が倒れるまで戦う
+            while (!enemies[i]->isDefeated()) {
+                if (player->getLife() <= 0) break;
+
+                // プレイヤーが攻撃
+                Bullet* bullet = player->shoot();
+                bullet->hitCheck();
+                enemies[i]->takeDamage(player->getAttackPower());
+                delete bullet;
+
+                // 敵が生きていれば反撃
+                if (!enemies[i]->isDefeated()) {
+                    enemies[i]->attack(player);
+                }
+            }
+
+            // 敵を倒したらアイテムドロップ
+            if (enemies[i]->isDefeated()) {
+                printf("敵 %d を倒した!\n", i + 1);
+                PowerUpItem* item = new PowerUpItem(1, "AttackUp");
+                item->spawn();
+                player->collectItem(item);
+                delete item;
+            }
+        }
+
+        // ステージクリア確認
+        if (stage->isCleared()) {
+            printf("\n===== ステージ %d クリア! =====\n", stageNum);
+        }
+
+        // メモリ解放
+        for (int i = 0; i < stage->getEnemyCount(); i++) {
+            delete enemies[i];
+        }
+        delete stage;
     }
 
-    // 敵の攻撃
-    printf("\n--- 敵の反撃 ---\n");
-    enemies[0]->attack(player);
-
-    // パワーアップアイテム取得
-    printf("\n--- アイテム取得 ---\n");
-    PowerUpItem* item = new PowerUpItem(2, "AttackUp");
-    item->spawn();
-    player->collectItem(item);
-
-    // ステージクリア確認
-    printf("\nステージクリア: %s\n", stage->isCleared() ? "YES" : "NO");
-
-    // メモリ解放
-    delete bullet;
-    delete item;
-    for (int i = 0; i < stage->getEnemyCount(); i++) {
-        delete enemies[i];
+    // 最終結果
+    if (player->getLife() > 0) {
+        printf("\n===== ゲームクリア! おめでとう! =====\n");
     }
-    delete stage;
+    else {
+        printf("\n===== ゲームオーバー =====\n");
+    }
+
     delete player;
-
     return 0;
 }
