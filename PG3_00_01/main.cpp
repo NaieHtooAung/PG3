@@ -1,11 +1,10 @@
-#include<stdio.h>
-#include <cstdlib>
-#include <Windows.h>
-int main()
-{
-	system("chcp 65001 > nul");
-	char str[] = "こんにちは";
-		printf("%s", str);
+#include <Novice.h>
+#include "GameManager.h"
 
+// Windowsアプリでのエントリーポイント(main関数)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	GameManager* gameManager = new GameManager();
+	gameManager->Run();
+	delete gameManager;
 	return 0;
 }
